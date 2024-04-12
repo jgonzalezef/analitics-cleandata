@@ -108,11 +108,11 @@ create table calificaciones(
     recuperacion_1 DOUBLE NULL,
     recuperacion_2 DOUBLE NULL,
     recuperacion_3 DOUBLE NULL,
-    cardex VARCHAR(50) CHECK (cardex IN ('Ordinario', 'Repeticion', 'Especial', 'Equivalencia')),
-    extra DOUBLE,
-    final DOUBLE,
+    cardex VARCHAR(50),
+    extra DOUBLE NULL,
+    final DOUBLE NULL,
     grupo_id BIGINT UNSIGNED NULL,
-    estudiante_id BIGINT UNSIGNED,
+    estudiante_id BIGINT UNSIGNED NULL,
     FOREIGN KEY (grupo_id) REFERENCES grupos(id),
     FOREIGN KEY (estudiante_id) REFERENCES estudiantes(id)
 );
