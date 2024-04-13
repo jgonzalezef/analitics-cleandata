@@ -2,11 +2,11 @@
 create table personas(
 	id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(50),
-    apellido_paterno VARCHAR(50),
-    apellido_materno VARCHAR(50),
+    apellido_paterno VARCHAR(50) NULL,
+    apellido_materno VARCHAR(50) NULL,
     telefono VARCHAR(50) NULL,
     curp VARCHAR(18) NULL,
-    sexo VARCHAR(1)
+    sexo VARCHAR(1) NULL
 );
 
 #RESTANTE
@@ -22,11 +22,6 @@ create table direcciones (
     referencias_direccion TEXT NULL,
     persona_id BIGINT UNSIGNED,
     FOREIGN KEY (persona_id) REFERENCES personas(id)
-);
-
-create table cat_periodos(
-	id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-	periodo VARCHAR(50)
 );
 
 #RESTANTES
@@ -163,3 +158,33 @@ create table roles_modulos_permisos(
 	FOREIGN KEY (modulo_id) REFERENCES modulos(id)
 );
 
+
+#OBTENER MATERIAS DE UN ESTUDIANTE
+select
+	periodos.periodo,
+	periodos.anio as periodo_año,
+	asignaturas.nombre as asignatura,
+	asignaturas.cuatrimestre as asignatura_cuatrimestre,
+	asignaturas.creditos as asignatura_creditos_logrados,
+	calificaciones.cardex,
+	calificaciones.ordinario_1 as corte1,
+	calificaciones.ordinario_2 as corte2,
+	calificaciones.ordinario_3 as corte2,
+	calificaciones.recuperacion_1 as recu1,
+	calificaciones.recuperacion_2 as recu2,
+	calificaciones.recuperacion_3 as recu3,
+	calificaciones.final as calificacion_final,
+	calificaciones.extra as calificacion_extraordinaria
+from calificaciones
+inner join periodos on calificaciones.periodo_id  = periodos.id
+inner join asignaturas on calificaciones.asignatura_id = asignaturas.id
+where calificaciones.estudiante_id = (
+	select id from estudiantes where matricula ="211105"
+);
+
+#OBTENER MATERIAS NO CURSADAS
+select * from asignaturas where id not in (
+	select asignatura_id  from calificaciones where estudiante_id = (
+		select id from estudiantes where matricula ="211105"
+	)
+);
