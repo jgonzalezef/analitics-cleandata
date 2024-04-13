@@ -32,7 +32,7 @@ create table cat_periodos(
 #RESTANTES
 create table periodos(
 	id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    anio INT UNSIGNED,
+    anio VARCHAR(10),
     periodo VARCHAR(100)
 );
 
@@ -91,6 +91,7 @@ create table asignaturas(
 #RESTANTES
 create table grupos(
 	id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    grupo varchar(20),
     periodo_id  BIGINT UNSIGNED ,
     asignatura_id BIGINT UNSIGNED,
     docente_id BIGINT UNSIGNED NULL,
@@ -113,8 +114,12 @@ create table calificaciones(
     final DOUBLE NULL,
     grupo_id BIGINT UNSIGNED NULL,
     estudiante_id BIGINT UNSIGNED NULL,
+    periodo_id BIGINT UNSIGNED NULL,
+    asignatura_id BIGINT UNSIGNED NULL,
     FOREIGN KEY (grupo_id) REFERENCES grupos(id),
-    FOREIGN KEY (estudiante_id) REFERENCES estudiantes(id)
+    FOREIGN KEY (estudiante_id) REFERENCES estudiantes(id),
+    FOREIGN KEY (periodo_id) REFERENCES periodos(id),
+    FOREIGN KEY (asignatura_id) REFERENCES asignaturas(id)
 );
 
 create table roles(

@@ -29,9 +29,6 @@ class MySQLDatabase:
             try:
                 cursor = self.connection.cursor()
                 if values:
-                    print("=======values=======")
-                    print(values)
-                    print("=======values=======")
                     cursor.execute(query, values)
                 else:
                     cursor.execute(query)
@@ -61,9 +58,7 @@ class MySQLDatabase:
         query = f"SELECT {', '.join(columns) if columns else '*'} FROM {table}"
         if condition:
             query += f" WHERE {condition}"
-            print("=======query=======")
-            print(query)
-            print("=======query=======")
+        print(query)
         return self.execute_read_query(query)
 
     def update_record(self, table, new_values, condition):
