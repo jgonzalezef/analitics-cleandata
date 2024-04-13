@@ -10,7 +10,7 @@ def crear_asignaturas():
         db.create_record(
             'asignaturas',
             ['nombre','abreviatura','creditos','cuatrimestre','order_grafico','horas_semana','total_horas','plan_id'],
-            [materia['Nombre'],materia['Abreviatura'],materia['Creditos'],materia['Periodo'],materia['OrdenGrafico'],materia['HorasSemana'],materia['TotalHoras'],1]
+            [materia['Nombre'].rstrip(),materia['Abreviatura'],materia['Creditos'],materia['Periodo'],materia['OrdenGrafico'],materia['HorasSemana'],materia['TotalHoras'],1]
         )
 
 
