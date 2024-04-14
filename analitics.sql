@@ -188,3 +188,19 @@ select * from asignaturas where id not in (
 		select id from estudiantes where matricula ="211105"
 	)
 );
+
+#Obtener datos de los grupos
+select
+	personas.nombre as docente,
+	asignaturas.nombre as asignatura,
+	asignaturas.cuatrimestre as asignatura_cuatrimestre,
+	periodos.periodo,
+	periodos.anio as periodo_año
+from grupos 
+inner join docentes on grupos.docente_id = docentes.id
+inner join personas on docentes.persona_id  = personas.id
+inner join asignaturas on grupos.asignatura_id = asignaturas.id
+inner join periodos on grupos.periodo_id = periodos.id
+order by 
+	asignaturas.nombre asc,
+	asignaturas.cuatrimestre asc

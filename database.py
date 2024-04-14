@@ -63,6 +63,7 @@ class MySQLDatabase:
     def update_record(self, table, new_values, condition):
         set_values = ', '.join([f"{key}='{value}'" for key, value in new_values.items()])
         query = f"UPDATE {table} SET {set_values} WHERE {condition}"
+        print(query)
         self.execute_query(query)
 
     def delete_record(self, table, condition):
