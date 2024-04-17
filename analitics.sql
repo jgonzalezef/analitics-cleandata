@@ -43,6 +43,7 @@ create table docentes(
 create table estudiantes(
 	id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     matricula VARCHAR(20) UNIQUE,
+	cuatrimestre_actual INT NULL,
     estatus VARCHAR(20),
     persona_id BIGINT UNSIGNED,
     perido_id BIGINT UNSIGNED,
@@ -107,6 +108,7 @@ create table calificaciones(
     cardex VARCHAR(50),
     extra DOUBLE NULL,
     final DOUBLE NULL,
+	estatus_asignatura VARCHAR(30) NULL,
     grupo_id BIGINT UNSIGNED NULL,
     estudiante_id BIGINT UNSIGNED NULL,
     periodo_id BIGINT UNSIGNED NULL,
