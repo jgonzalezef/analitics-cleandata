@@ -204,3 +204,16 @@ inner join periodos on grupos.periodo_id = periodos.id
 order by 
 	asignaturas.nombre asc,
 	asignaturas.cuatrimestre asc
+
+#obtener datos de los estudiantes con tutores
+select 
+	estudiantes.id as estudiante_id,
+	estudiantes.matricula,
+	estudiantes_persona.nombre,
+	docentes.id as docente_id,
+	personas.nombre
+from estudiantes 
+inner join docentes on estudiantes.tutor_academico_id  = docentes.id
+inner join personas on docentes.persona_id  = personas.id
+inner join personas as estudiantes_persona on estudiantes.persona_id = estudiantes_persona.id
+where estudiantes.tutor_academico_id is not null and estudiantes.matricula = "211262";
