@@ -43,7 +43,7 @@ create table docentes(
 create table estudiantes(
 	id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     matricula VARCHAR(20) UNIQUE,
-    estatus VARCHAR(20) CHECK (estatus IN ('INSCRITO', 'BAJA_DEFINITIVA', 'BAJA_ACADEMICA', 'TITULADO')),
+    estatus VARCHAR(20),
     persona_id BIGINT UNSIGNED,
     perido_id BIGINT UNSIGNED,
     tutor_academico_id  BIGINT UNSIGNED NULL,
