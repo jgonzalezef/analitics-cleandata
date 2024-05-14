@@ -2,7 +2,7 @@ import pandas as pd
 from database import MySQLDatabase
 import math
 
-db = MySQLDatabase("localhost", "root", "", "analitics")
+db = MySQLDatabase("localhost", "root", "", "analitics","3306")
 
 def obtener_anio_del_periodo(periodo):
     splitPeriodo = periodo.split(" ")
@@ -26,20 +26,21 @@ def obtener_asignatura(asignatura):
 def crear_estudiantes(parte):
     calificaciones = pd.read_excel(f"data/mapa_curricular/mapa_curricular_parte_{str(parte)}.xlsx")
     for _, calificacion in calificaciones.iterrows():
-        matricula = calificacion['Matricula']
-        condition = "matricula = '" + str(matricula) + "'"
-        estudiante = db.read_records("estudiantes",['id','matricula'],condition)
-        if len(estudiante) == 0 : 
-            db.create_record(
-                'estudiantes',
-                ['matricula'],
-                [matricula]
-            )
+        if str(calificacion['PlanEstudiosClave']) == '4'
+            matricula = calificacion['Matricula']
+            condition = "matricula = '" + str(matricula) + "'"
+            estudiante = db.read_records("estudiantes",['id','matricula'],condition)
+            if len(estudiante) == 0 : 
+                db.create_record(
+                    'estudiantes',
+                    ['matricula'],
+                    [matricula]
+                )
 
 def crear_periodos(parte):
     periodos = pd.read_excel(f"data/mapa_curricular/mapa_curricular_parte_{str(parte)}.xlsx")
     for _, periodo in periodos.iterrows():
-        if not pd.isna(periodo["PeriodoCursado"]) : 
+        if not pd.isna(periodo["PeriodoCursado"]) and str(calificacion['PlanEstudiosClave']) == '4' : 
             periodo = periodo["PeriodoCursado"]
             anio = obtener_anio_del_periodo(periodo)
             condition = "periodo = '" + str(periodo) + "'"
@@ -56,8 +57,7 @@ def crear_calificaciones(parte):
     for _, calificacion in calificaciones.iterrows():
         extra = 0
         final = 0
-        #SI NO LA HA CURSADO NO LA NECESITO
-        if calificacion['EstatusMateria'] != 'Sin Cursar' and str(calificacion['PlanEstudiosClave']) == '4': 
+        if str(calificacion['PlanEstudiosClave']) == '4': 
             extra = -1 if math.isnan(calificacion['Extra']) else calificacion['Extra']
             final = -1 if math.isnan(calificacion['Final']) else calificacion['Final']
 
@@ -69,9 +69,10 @@ def crear_calificaciones(parte):
 
             db.create_record(
                 'calificaciones',
-                ['cardex','extra','final','estudiante_id','periodo_id','asignatura_id'],
-                [calificacion['EstatusCardex'],extra,final,estudiante,periodo,asignatura]
+                ['cardex','extra','final','estatus_asignatura','estudiante_id','periodo_id','asignatura_id'],
+                [calificacion['EstatusCardex'],extra,final,calificacion['EstatusMateria'],estudiante,periodo,asignatura]
             )
+            
 print("PARTE 1")
 crear_estudiantes(1)
 crear_periodos(1)

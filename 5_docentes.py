@@ -1,10 +1,20 @@
-import os
 import pandas as pd
 from database import MySQLDatabase
 import unicodedata
 from tabulate import tabulate
 
-db = MySQLDatabase("localhost", "root", "", "analitics")
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+db_host = os.getenv("DB_HOST")
+db_user = os.getenv("DB_USERNAME")
+db_password = os.getenv("DB_PASSWORD")
+db_name    = os.getenv("DB_NAME")
+db_port = os.getenv("DB_PORT")
+
+db = MySQLDatabase(db_host,db_user,db_password,db_name,db_port)
 directorio = 'data/grupos'
 
 ASIGNATURA_POSICION = 0

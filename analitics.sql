@@ -219,3 +219,52 @@ inner join docentes on estudiantes.tutor_academico_id  = docentes.id
 inner join personas on docentes.persona_id  = personas.id
 inner join personas as estudiantes_persona on estudiantes.persona_id = estudiantes_persona.id
 where estudiantes.tutor_academico_id is not null and estudiantes.matricula = "211262";
+
+#Informacion personal de un estudiante
+select 
+	estudiantes.id,
+	estudiantes.matricula,
+	estudiantes.cuatrimestre_actual,
+	(
+        select count(*) from asignaturas where cuatrimestre <= estudiantes.cuatrimestre_actual
+    ) -
+    (
+        select count(*) from asignaturas
+        inner join calificaciones on asignaturas.id = calificaciones.asignatura_id
+        where calificaciones.estatus_asignatura = 'Aprobado' and calificaciones.estudiante_id = estudiantes.id
+    ) as rezago,
+	personas.nombre,
+	personas.apellido_paterno,
+	personas.apellido_materno,
+	personas.telefono,
+	personas.curp,
+	personas.sexo,
+	tutor_familiar.nombre as tutor_nombre,
+	tutor_familiar.apellido_paterno as tutor_apellido_paterno,
+	tutor_familiar.apellido_materno as tutor_apellido_materno,
+	tutor_familiar.telefono as tutor_telefono,
+	tutor_academico.nombre as tutor_academico_nombre,
+	tutor_academico.apellido_paterno as tutor_academico_apellido_paterno,
+	tutor_academico.apellido_materno as tutor_academico_apellido_materno,
+	direcciones.codigo_postal,
+	direcciones.ciudad,
+	direcciones.colonia,
+	direcciones.numero_interior,
+	direcciones.calle_1,
+	direcciones.calle_2,
+	direcciones.referencias_direccion,
+	direccion_familiar.codigo_postal as direccion_familiar_codigo_postal,
+	direccion_familiar.ciudad as direccion_familiar_ciudad,
+	direccion_familiar.colonia as direccion_familiar_colonia,
+	direccion_familiar.numero_interior as direccion_familiar_numero_interior,
+	direccion_familiar.calle_1 as direccion_familiar_calle_1,
+	direccion_familiar.calle_2 as direccion_familiar_calle_2,
+	direccion_familiar.referencias_direccion as direccion_familiar_referencias_direccion
+from estudiantes
+inner join personas on estudiantes.persona_id = personas.id
+left join personas as tutor_familiar on estudiantes.tuto_familiar_id
+left join personas as tutor_academico on estudiantes.tutor_academico_id 
+left join direcciones on personas.id = direcciones.persona_id
+left join direcciones as direccion_familiar on tutor_familiar.id = direccion_familiar.persona_id
+where estudiantes.matricula = "211102"
+limit 1;

@@ -3,8 +3,18 @@ import pandas as pd
 from database import MySQLDatabase
 from tabulate import tabulate
 import unicodedata
+import os
+from dotenv import load_dotenv
 
-db = MySQLDatabase("localhost", "root", "", "analitics")
+load_dotenv()
+
+db_host = os.getenv("DB_HOST")
+db_user = os.getenv("DB_USERNAME")
+db_password = os.getenv("DB_PASSWORD")
+db_name    = os.getenv("DB_NAME")
+db_port = os.getenv("DB_PORT")
+
+db = MySQLDatabase(db_host,db_user,db_password,db_name,db_port)
 directorio = 'data/grupos'
 
 def convertir_formato_nombre_apellidos(nombre):

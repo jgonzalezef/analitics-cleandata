@@ -2,7 +2,7 @@ import os
 import pandas as pd
 from database import MySQLDatabase
 
-db = MySQLDatabase("localhost", "root", "", "analitics")
+db = MySQLDatabase("localhost", "root", "", "analitics","3306")
 
 directorio = 'data/mapa_curricular'
 
